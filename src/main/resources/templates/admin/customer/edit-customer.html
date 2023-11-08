@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"
+          rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <title>Edit Customer Page</title>
+</head>
+<body>
+<div class="d-flex">
+    <div th:replace="~{components/component :: sidebar}"></div>
+    <div id="page-content-wrapper">
+        <nav th:replace="~{components/component :: navbar}"></nav>
+        <div class="container-fluid px-4">
+            <div class="container-fluid px-4">
+                <h1 class="text-center text-info">Information Customer Need Edit</h1>
+                <form action="#"
+                      th:action="@{/admin/customer/update/{id}(id=${customer.id})}"
+                      th:object="${customer}"
+                      method="post">
+                    <div class="mb-3 row col-8">
+                        <label class="form-label">Name:
+                            <input type="text" th:field="*{name}"  class="form-control" >
+                        </label>
+                    </div>
+                    <div class="mb-3 row col-8">
+                        <label class="form-label">Phone:
+                            <input type="text" th:field="*{phone}" class="form-control">
+                        </label>
+                    </div>
+                    <div class="mb-3 row col-8">
+                        <label class="form-label">Email:
+                            <input type="email" class="form-control" th:field="*{email}">
+                        </label>
+                    </div>
+                    <div class="mb-3 row col-8">
+                        <label class="form-label">Address:
+                            <input type="text" class="form-control" th:field="*{address}">
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Customer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{components/component :: bootom-script}"></div>
+</div>
+</body>
+</html>

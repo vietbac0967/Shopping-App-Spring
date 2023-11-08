@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"
+          rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <title>Employee Page</title>
+</head>
+<body>
+<div class="d-flex">
+
+    <!-- /#sidebar-wrapper -->
+    <div th:replace="~{components/component :: sidebar}"></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <!--       Navbar    -->
+        <nav th:replace="~{components/component :: navbar}"></nav>
+        <div class="container-fluid px-4">
+            <h1 class="text-center">List Employees</h1>
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Address</th>
+                    <th>Date of birth</th>
+                    <th>Email</th>
+                    <th>Full Name</th>
+                    <th>Phone</th>
+                    <th colspan="2">
+                        <a class="btn btn-success" th:href="@{/admin/employees/insertForm}">
+                            <i class="fas fa-plus-square"></i>
+                        </a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="employee, iStat : ${employeePage.content}"
+                    th:class="${iStat.odd}? 'odd-row' : 'even-row'">
+                    <td th:text="${employee.id}"></td>
+                    <td th:text="${employee.address}"></td>
+                    <td th:text="${employee.dob}"></td>
+                    <td th:text="${employee.email}"></td>
+                    <td th:text="${employee.fullName}"></td>
+                    <td th:text="${employee.phone}"></td>
+                    <td>
+                        <a class="btn btn-primary"
+                           th:href="@{/admin/employees/showEdit/{id}(id=${employee.id})}">
+                            <i class="far fa-edit"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger"
+                           th:href="@{/admin/employees/delete/{id}(id=${employee.id})}">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            <ul class="pagination d-inline-block p-2 text-dark" th:if="${employeePage.totalPages > 0}"
+                th:each="pageNumber : ${pageNumbers}">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/admin/employees(size=${employeePage.size}, page=${pageNumber})}"
+                       th:text="${pageNumber}"
+                       th:class="${pageNumber==employeePage.number + 1} ? active : '' ">
+                    </a>
+                </li>
+            </ul>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{components/component :: bootom-script}"></div>
+</body>
+</html>

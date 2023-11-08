@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"
+          rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <title>Product Page</title>
+</head>
+<body>
+<div class="d-flex">
+
+    <!-- /#sidebar-wrapper -->
+    <div th:replace="~{components/component :: sidebar}"></div>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <!--       Navbar    -->
+        <nav th:replace="~{components/component :: navbar}"></nav>
+        <div class="container-fluid px-4">
+            <h1 class="text-center">List Products</h1>
+            <table class="table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Description</th>
+                    <th>Manufacturer Name</th>
+                    <th>Product name</th>
+                    <th>Unit</th>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th colspan="2">
+                        <a class="btn btn-success" th:href="@{/admin/customer/insertForm}">
+                            <i class="fas fa-plus-square"></i>
+                        </a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product, iStat : ${productPage.content}"
+                    th:class="${iStat.odd}? 'odd-row' : 'even-row'">
+                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.description}"></td>
+                    <td th:text="${product.manufacturer}"></td>
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.unit}"></td>
+                    <td>
+                        <div th:each="image : ${product.productImageList}">
+                            <img th:src="${image.path}" alt="Product Image" width="100" height="100"/>
+                        </div>
+                    </td>
+                    <td>
+                        <ul>
+                            <li th:each="productPrice : ${product.productPrices}">
+                                <span th:text="${productPrice.price + '$'} + ' ' + ${#temporals.format(productPrice.priceDateTime, 'yyyy-MM-dd')}"></span>
+                            </li>
+                        </ul>
+
+                    </td>
+
+                    <td>
+                        <a class="btn btn-primary"
+                           th:href="@{/admin/customer/showEdit/{id}(id=${product.id})}">
+                            <i class="far fa-edit"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger"
+                           th:href="@{/admin/products/delete/{id}(id=${product.id})}">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            <ul class="pagination d-inline-block p-2 text-dark" th:if="${productPage.totalPages > 0}"
+                th:each="pageNumber : ${pageNumbers}">
+                <li class="page-item">
+                    <a class="page-link" th:href="@{/admin/products(size=${productPage.size}, page=${pageNumber})}"
+                       th:text="${pageNumber}"
+                       th:class="${pageNumber==productPage.number + 1} ? active : '' ">
+                    </a>
+                </li>
+            </ul>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{components/component :: bootom-script}"></div>
+</body>
+</html>
