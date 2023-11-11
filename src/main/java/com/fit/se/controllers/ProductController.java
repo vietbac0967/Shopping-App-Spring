@@ -25,7 +25,7 @@ public class ProductController {
     private final ProductService productService;
     private final ProductRepository productRepository;
     @GetMapping("")
-    public String showCustomerListPaging(
+    public String showProductListPaging(
             Model model,
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size) {

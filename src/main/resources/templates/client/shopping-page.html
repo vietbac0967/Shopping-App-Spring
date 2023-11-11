@@ -9,112 +9,51 @@
     <link th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}"
           rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"></script>
     <link rel="stylesheet" th:href="@{/css/shopping.css}"/>
 </head>
 
 <body>
+<!-- Navbar -->
+<nav th:replace="~{components/navbar-shopping :: navbar-cart}"></nav>
+<!-- Navbar -->
 <div class="container py-5">
     <h1 class="text-center">Popular Dishes</h1>
-    <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
-
-        <div class="col">
-            <div class="card">
-                <img src="/images/dish1.jpg" class="card-img-top" alt="...">
+    <div class="row">
+        <div class="col-md-3 my-3" th:each="product : ${productPage.content}">
+            <div class="card d-flex flex-column h-100" th:each="img : ${product.productImageList}">
+                <img th:src="${img.path}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">TIRAMISU CAKE</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-                        dignissimos accusantium amet similique velit iste.</p>
+                    <h5 class="card-title" th:text="${product.name}"></h5>
+                    <p class="card-text" th:text="${product.description}"></p>
                 </div>
                 <div class="mb-5 d-flex justify-content-around">
-                    <h3>190$</h3>
-                    <button class="btn btn-primary">Buy Now</button>
+                    <h6 class="price p-2"
+                        th:text="'Price: $' + ${productPriceService.getProductPriceRepository(product.id)}"></h6>
+                    <button class="btn btn-primary">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </button>
                 </div>
             </div>
         </div>
-
-        <div class="col">
-            <div class="card">
-                <img src="/images/dish1.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">TIRAMISU CAKE</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-                        dignissimos accusantium amet similique velit iste.</p>
-                </div>
-                <div class="mb-5 d-flex justify-content-around">
-                    <h3>190$</h3>
-                    <button class="btn btn-primary">Buy Now</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card">
-                <img src="/images/dish5.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">TIRAMISU CAKE</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-                        dignissimos accusantium amet similique velit iste.</p>
-                </div>
-                <div class="mb-5 d-flex justify-content-around">
-                    <h3>190$</h3>
-                    <button class="btn btn-primary">Buy Now</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card">
-                <img src="/images/dish4.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">TIRAMISU CAKE</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-                        dignissimos accusantium amet similique velit iste.</p>
-                </div>
-                <div class="mb-5 d-flex justify-content-around">
-                    <h3>190$</h3>
-                    <button class="btn btn-primary">Buy Now</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card">
-                <img src="/images/dish3.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">TIRAMISU CAKE</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-                        dignissimos accusantium amet similique velit iste.</p>
-                </div>
-                <div class="mb-5 d-flex justify-content-around">
-                    <h3>190$</h3>
-                    <button class="btn btn-primary">Buy Now</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card">
-                <img src="/images/dish2.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">TIRAMISU CAKE</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
-                        dignissimos accusantium amet similique velit iste.</p>
-                </div>
-                <div class="mb-5 d-flex justify-content-around">
-                    <h3>190$</h3>
-                    <button class="btn btn-primary">Buy Now</button>
-                </div>
-            </div>
-        </div>
-
-
     </div>
+    <ul class="pagination d-inline-block p-2 text-dark" th:if="${productPage.totalPages > 0}"
+        th:each="pageNumber : ${pageNumbers}">
+        <li class="page-item">
+            <a class="page-link" th:href="@{/shopping(size=${productPage.size}, page=${pageNumber})}"
+               th:text="${pageNumber}"
+               th:class="${pageNumber==productPage.number + 1} ? active : '' ">
+            </a>
+        </li>
+    </ul>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-        crossorigin="anonymous"></script>
 </body>
 </html>

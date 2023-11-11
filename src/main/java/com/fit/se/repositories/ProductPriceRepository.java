@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface ProductPriceRepository extends JpaRepository<ProductPrice, ProductPricePK> {
 
-    double getNewestPriceByProduct(long id);
+   double getNearestPriceByProduct(long id);
 }

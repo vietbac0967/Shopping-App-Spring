@@ -2,6 +2,7 @@ package com.fit.se.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,11 +10,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "product_image")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id")
-    private long image_id;
+    private long imageId;
     /*@Column(name = "product_id")
     private long product_id;*/
     @Column(name = "path", length = 250, nullable = false)

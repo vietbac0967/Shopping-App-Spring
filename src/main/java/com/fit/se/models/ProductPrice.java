@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NamedQueries({
         @NamedQuery(
-                name = "ProductPrice.getNewestPriceByProduct",query = "select p.price from ProductPrice p " +
+                name = "ProductPrice.getNearestPriceByProduct",query = "select p.price from ProductPrice p " +
                 "where p.product.id =: id order by p.priceDateTime limit 1"
         )
 })
