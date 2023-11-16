@@ -21,6 +21,10 @@
         <nav th:replace="~{components/component :: navbar}"></nav>
         <div class="container-fluid px-4">
             <h1 class="text-center">List Employees</h1>
+            <form th:action="@{/admin/employees}" class="d-flex col-6 my-3" role="search" method="get">
+                <input id="txtSearch" name="keyword"  class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
@@ -62,15 +66,7 @@
 
                 </tbody>
             </table>
-            <ul class="pagination d-inline-block p-2 text-dark" th:if="${employeePage.totalPages > 0}"
-                th:each="pageNumber : ${pageNumbers}">
-                <li class="page-item">
-                    <a class="page-link" th:href="@{/admin/employees(size=${employeePage.size}, page=${pageNumber})}"
-                       th:text="${pageNumber}"
-                       th:class="${pageNumber==employeePage.number + 1} ? active : '' ">
-                    </a>
-                </li>
-            </ul>
+            <nav th:replace="~{components/pagination :: pagination(${employeePage},${control},${pageNumbers})}"></nav>
             <div>
             </div>
         </div>

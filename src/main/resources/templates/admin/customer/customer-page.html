@@ -19,14 +19,20 @@
     <div id="page-content-wrapper">
         <!--       Navbar    -->
         <nav th:replace="~{components/component :: navbar}"></nav>
+
         <div class="container-fluid px-4">
             <h1 class="text-center">List Customers</h1>
+            <form th:action="@{/admin/customers}" class="d-flex col-6 my-3" role="search" method="get">
+                <input id="txtSearch" name="keyword"  class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
                     <th>STT</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Phone</th>
                     <th>Address</th>
                     <th colspan="2">
                         <a class="btn btn-success" th:href="@{/admin/customer/insertForm}">
@@ -41,6 +47,7 @@
                     <td th:text="${customer.id}"></td>
                     <td th:text="${customer.name}"></td>
                     <td th:text="${customer.email}"></td>
+                    <td th:text="${customer.phone}"></td>
                     <td th:text="${customer.address}"></td>
                     <td>
                         <a class="btn btn-primary"
@@ -58,15 +65,7 @@
 
                 </tbody>
             </table>
-            <ul class="pagination d-inline-block p-2 text-dark" th:if="${customerPage.totalPages > 0}"
-                th:each="pageNumber : ${pageNumbers}">
-                <li class="page-item">
-                    <a class="page-link" th:href="@{/admin/customer(size=${customerPage.size}, page=${pageNumber})}"
-                       th:text="${pageNumber}"
-                       th:class="${pageNumber==customerPage.number + 1} ? active : '' ">
-                    </a>
-                </li>
-            </ul>
+            <nav th:replace="~{components/pagination :: pagination(${customerPage},${control},${pageNumbers})}"></nav>
             <div>
             </div>
         </div>

@@ -5,6 +5,7 @@ import com.fit.se.enums.ProductStatus;
 import com.fit.se.models.Employee;
 import com.fit.se.models.Product;
 import com.fit.se.repositories.EmployeeRepository;
+import com.fit.se.utils.PageRender;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -24,18 +25,18 @@ public class EmployeeService {
         return employeeRepository.findAll(pageable);
     }
 
-    public Page<Employee> findPaginated(Pageable pageable) {
+    public Page<Employee> findPaginated(Pageable pageable,Optional<String> keyword) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
-        List<Employee> list;
-        List<Employee> employees = employeeRepository.findEmployees();
-        if (employees.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, employees.size());
-            list = employees.subList(startItem, toIndex);
+        List<Employee> employees;
+        if(keyword.isPresent()){
+            employees = employeeRepository.findByKeyword(keyword.get());
+        }else {
+            employees = employeeRepository.findEmployees();
         }
+        PageRender<Employee> employeePageRender = new PageRender<>();
+        List<Employee> list = employeePageRender.getPageOfModel(employees.size(),startItem,pageSize,employees);
         return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), employees.size());
     }
     public void deleteEmployee(long id){

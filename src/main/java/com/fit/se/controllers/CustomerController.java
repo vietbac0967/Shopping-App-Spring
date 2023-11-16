@@ -30,19 +30,23 @@ public class CustomerController {
     public String showCustomerListPaging(
             Model model,
             @RequestParam("page") Optional<Integer> page,
-            @RequestParam("size") Optional<Integer> size) {
+            @RequestParam("size") Optional<Integer> size,
+            @RequestParam("keyword") Optional<String> keyWord
+
+        ) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
         Page<Customer> customerPage = customerService.findPaginated(
-                PageRequest.of(currentPage - 1, pageSize)
+                PageRequest.of(currentPage - 1, pageSize),keyWord
         );
 
-        model.addAttribute("customerPage", customerPage);
-        model.addAttribute("currentPage", customerPage.getNumber() + 1);
-        model.addAttribute("pageSize", size);
         int totalPages = customerPage.getTotalPages();
+        int startPage = Math.max(1, currentPage - 2);
+        int endPage = Math.min(startPage + 4, totalPages);
+        model.addAttribute("customerPage", customerPage);
+        model.addAttribute("control","customers");
         if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+            List<Integer> pageNumbers = IntStream.rangeClosed(startPage,endPage)
                     .boxed()
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);

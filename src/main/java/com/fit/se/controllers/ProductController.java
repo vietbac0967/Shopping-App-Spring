@@ -1,5 +1,6 @@
 package com.fit.se.controllers;
 
+import com.fit.se.models.Customer;
 import com.fit.se.models.Product;
 import com.fit.se.repositories.ProductRepository;
 import com.fit.se.services.ProductService;
@@ -28,18 +29,21 @@ public class ProductController {
     public String showProductListPaging(
             Model model,
             @RequestParam("page") Optional<Integer> page,
-            @RequestParam("size") Optional<Integer> size) {
+            @RequestParam("size") Optional<Integer> size,
+            @RequestParam("keyword") Optional<String> keyword)
+    {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(10);
         Page<Product> productPage = productService.findPaginated(
-                PageRequest.of(currentPage - 1, pageSize)
+                PageRequest.of(currentPage - 1, pageSize),keyword
         );
-
-        model.addAttribute("productPage", productPage);
-        model.addAttribute("currentPage", productPage.getNumber() + 1).addAttribute("pageSize", size);
         int totalPages = productPage.getTotalPages();
+        int startPage = Math.max(1, currentPage - 2);
+        int endPage = Math.min(startPage + 4, totalPages);
+        model.addAttribute("productPage", productPage);
+        model.addAttribute("control","products");
         if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+            List<Integer> pageNumbers = IntStream.rangeClosed(startPage,endPage)
                     .boxed()
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);

@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "product")
 @Data
 @NamedQueries(value = {
-        @NamedQuery(name = "Product.findProducts", query = "select p from Product p where p.status = 1"),
+        @NamedQuery(name = "Product.findProducts", query = "select p from  Product p where p.status = 1 and p.id <= 50"),
         @NamedQuery(name = "Product.findById", query = "select p from Product p where p.id = ?1")
 })
 @NoArgsConstructor
