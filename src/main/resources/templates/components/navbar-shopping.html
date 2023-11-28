@@ -41,12 +41,12 @@
         <!-- Right elements -->
         <div class="d-flex align-items-center">
             <!-- Icon -->
-            <button class="btn text-reset me-3 position-relative" href="#">
+            <a class="btn text-reset me-3 position-relative" th:href="@{/show-check-out}" >
                 <i class="fas fa-shopping-cart"></i>
-                <span
+                <span th:text="${session.sizeCart}"
                         class="position-absolute top-0 px-1 mt-1 start-100 translate-middle badge rounded-pill bg-danger">
-                        99+
-            </button>
+                </span>
+            </a>
 
             <!-- Notifications -->
             <div class="dropdown">

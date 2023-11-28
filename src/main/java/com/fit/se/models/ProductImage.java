@@ -12,6 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@NamedQueries({
+        @NamedQuery(
+                name = "ProductImage.getImageByProduct",
+                query = "select pi.path from  ProductImage  pi where product.id =: id"
+        )
+})
 public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

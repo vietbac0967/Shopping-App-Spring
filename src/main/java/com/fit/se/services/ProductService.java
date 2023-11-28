@@ -1,7 +1,9 @@
 package com.fit.se.services;
 
+import com.fit.se.dto.Cart;
 import com.fit.se.enums.ProductStatus;
 import com.fit.se.models.Product;
+import com.fit.se.repositories.ProductPriceRepository;
 import com.fit.se.repositories.ProductRepository;
 import com.fit.se.utils.PageRender;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private final ProductPriceRepository productPriceRepository;
 
     public Page<Product> findAll(int pageNo, int pageSize, String sortBy, String sortDirection) {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
@@ -37,12 +40,6 @@ public class ProductService {
         }
         PageRender<Product> productPageRender = new PageRender<>();
         List<Product> list = productPageRender.getPageOfModel(products.size(), startItem, pageSize, products);
-//        if (products.size() < startItem) {
-//            list = Collections.emptyList();
-//        } else {
-//            int toIndex = Math.min(startItem + pageSize, products.size());
-//            list = products.subList(startItem, toIndex);
-//        }
         return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), products.size());
     }
 
@@ -54,6 +51,40 @@ public class ProductService {
             product.setStatus(ProductStatus.TERMINATED);
             productRepository.save(product);
         }
+    }
+
+    public List<Cart> getCartsProduct(ArrayList<Cart> cartList) {
+        List<Cart> carts = new ArrayList<>();
+        if (!cartList.isEmpty()) {
+            for (Cart cart : cartList) {
+                Product product = productRepository.findById(cart.getId()).orElseThrow(
+                        () -> new IllegalArgumentException("Not found with id: " + cart.getId())
+                );
+                Cart row = new Cart();
+                row.setId(product.getId());
+                row.setName(product.getName());
+                System.out.println(product.getName());
+                row.setDescription(product.getDescription());
+                System.out.println(product.getDescription());
+                row.setQuantity(cart.getQuantity());
+                double price = productPriceRepository.getNearestPriceByProduct(product.getId());
+                System.out.println(price);
+                row.setPrice(price * cart.getQuantity());
+                carts.add(row);
+            }
+        }
+        return carts;
+    }
+
+    public double getTotalCartPrice(ArrayList<Cart> cartList) {
+        double sum = 0;
+        if (!cartList.isEmpty()) {
+            for (Cart item : cartList) {
+                double price = productPriceRepository.getNearestPriceByProduct(item.getId());
+                sum += price * item.getQuantity();
+            }
+        }
+        return sum;
     }
 
 }

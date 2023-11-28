@@ -20,12 +20,22 @@
             <i class="fas fa-users"></i> Customers
         </a>
 
-        <a th:href="@{/admin/products}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+        <a th:href="@{/admin/products}"
+           class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
             <i class="fas fa-gift"></i> Products
         </a>
-        <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-            <i class="fas fa-paperclip me-2"></i>Reports</a>
-        <a th:href="@{/admin/employees}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+        <!--        <i class="fas fa-paperclip me-2 btn"></i>Reports-->
+        <div class="dropdown">
+            <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-paperclip me-2 btn"></i>Reports
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item"  th:href="@{/admin/chart-page}"><i class="fas fa-money-bill-wave px-1"></i>Follow Price</a></li>
+                <li><a class="dropdown-item" th:href="@{/admin/show-chart-order}"><i class="fas fa-calendar-alt px-1"></i>Order By Date</a></li>
+            </ul>
+        </div>
+        <a th:href="@{/admin/employees}"
+           class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
             <i class="fas fa-id-card"></i> Employees</a>
         <a th:href="@{/login}" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                 class="fas fa-power-off me-2"></i>Logout</a>

@@ -12,7 +12,10 @@ import java.util.List;
 @Table(name = "customer")
 @Data
 @NamedQueries({
-        @NamedQuery(name = "Customer.getAll",query = "select c from Customer c")
+       @NamedQuery(
+               name = "Customer.findNameCustomer",
+               query = "select c.name from Customer c where c.id =: id"
+       )
 
 })
 @NoArgsConstructor

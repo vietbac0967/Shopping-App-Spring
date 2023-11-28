@@ -2,6 +2,8 @@ package com.fit.se.models;
 
 import com.fit.se.enums.ProductStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +17,8 @@ import java.util.List;
         @NamedQuery(name = "Product.findById", query = "select p from Product p where p.id = ?1")
 })
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,23 +38,11 @@ public class Product {
     @Column(name = "status")
     private ProductStatus status;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product")
     private List<ProductImage> productImageList;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product")
     private List<OrderDetail> orderDetails;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product")
     private List<ProductPrice> productPrices;
-
-    public Product(String name, String description, String unit, String manufacturer, ProductStatus status) {
-        this.name = name;
-        this.description = description;
-        this.unit = unit;
-        this.manufacturer = manufacturer;
-        this.status = status;
-    }
-
-    public Product(long id) {
-        this.id = id;
-    }
 }

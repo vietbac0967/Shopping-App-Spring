@@ -18,7 +18,12 @@ import java.time.LocalDateTime;
         @NamedQuery(
                 name = "ProductPrice.getNearestPriceByProduct",query = "select p.price from ProductPrice p " +
                 "where p.product.id =: id order by p.priceDateTime limit 1"
+        ),
+        @NamedQuery(
+                name = "ProductPrice.getPriceFollowTime",
+                query = "select pr.priceDateTime,pr.price from ProductPrice pr where pr.product.id =: id"
         )
+
 })
 public class ProductPrice {
     @Id

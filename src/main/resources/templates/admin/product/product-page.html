@@ -52,7 +52,7 @@
                     <td th:text="${product.unit}"></td>
                     <td>
                         <div th:each="image : ${product.productImageList}">
-                            <img th:src="${image.path}" alt="Product Image" width="100" height="100"/>
+                            <img loading="lazy" th:src="${image.path}" alt="Product Image" width="100" height="100"/>
                         </div>
                     </td>
                     <td>

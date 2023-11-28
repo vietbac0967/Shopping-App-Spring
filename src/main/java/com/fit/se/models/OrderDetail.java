@@ -3,6 +3,7 @@ package com.fit.se.models;
 import com.fit.se.pks.OrderDetailPK;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @IdClass(OrderDetailPK.class)
+@Builder
+
+@NamedQueries({
+        @NamedQuery(
+                name = "OrderDetail.getTotalPriceOfOrder",
+                query = "select SUM(od.price) from OrderDetail od where od.order.id =: id"
+        )
+})
 public class OrderDetail {
     @Column(name = "quantity", nullable = false)
     private double quantity;

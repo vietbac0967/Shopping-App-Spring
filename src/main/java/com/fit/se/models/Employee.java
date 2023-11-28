@@ -16,10 +16,15 @@ import java.util.List;
 @Entity
 @Table(name = "employee")
 @Data
-@NamedQueries(
-        @NamedQuery(name = "Employee.findEmployees", query = "select e from Employee e where e.status= 1")
-//        ,@NamedQuery(name = "Employee.findXXXXXXX", query = "select e from Employee e where????")
-        //,...
+@NamedQueries({
+        @NamedQuery(
+                name = "Employee.findEmployees",
+                query = "select e from Employee e where e.status = 1"),
+        @NamedQuery(
+                name = "Employee.findNameEmployee",
+                query = "select e.fullName from  Employee e where e.id =: id"
+        )}
+
 )
 @Builder
 @NoArgsConstructor
@@ -45,6 +50,6 @@ public class Employee {
     @Enumerated(EnumType.ORDINAL)
     private EmployeeStatus status;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee")
     private List<Order> lstOrder;
 }
