@@ -83,13 +83,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="order : ${orderPage.content}">
-                                <td th:text="${#temporals.format(order.orderDate, 'dd-MMM-yyyy')}"></td>
-                                <td th:text="${employeeRepository.findNameEmployee(order.employee.id)}"></td>
-                                <td th:text="${customerRepository.findNameCustomer(order.customer.id)}"></td>
-<!--                                <td th:text="${'$ ' + #numbers.formatDecimal(orderDetailRepository.getTotalPriceOfOrder(order.orderId),3,'POINT',2,'COMMA').isEmpty() ? 0 : }"></td>-->
-                                <td th:text="${orderDetailRepository.getTotalPriceOfOrder(order.orderId) == null ? '0' : #numbers.formatDecimal(orderDetailRepository.getTotalPriceOfOrder(order.orderId), 3, 'POINT', 2, 'COMMA')}"></td>
-                            </tr>
+                        <tr th:each="order : ${orderPage.content}">
+                            <td th:text="${#temporals.format(order.orderDate, 'dd-MMM-yyyy')}"></td>
+                            <td th:text="${employeeRepository.findNameEmployee(order.employee.id)}"></td>
+                            <td th:text="${customerRepository.findNameCustomer(order.customer.id)}"></td>
+                            <!--                                <td th:text="${orderDetailRepository.getTotalPriceOfOrder(order.orderId) == null ? 0 : #numbers.formatDecimal(orderDetailRepository.getTotalPriceOfOrder(order.orderId), 3, 'POINT', 2, 'COMMA')}"></td>-->
+                            <td th:text="${orderDetailRepository.getTotalPriceOfOrder(order.orderId).isPresent() ? #numbers.formatDecimal(orderDetailRepository.getTotalPriceOfOrder(order.orderId).get().doubleValue(), 3, 'POINT', 2, 'COMMA') : 0}"></td>
+                        </tr>
                         </tbody>
                     </table>
                     <nav th:replace="~{components/pagination :: pagination(${orderPage},${control},${pageNumbers})}"></nav>
